@@ -1,13 +1,15 @@
 import tkinter as tk
 from tkinter import ttk
 from records import *
-import sv_ttk
 
 class Login:
     def __init__(self):
+        self.logged_in = False
+
         self.window = tk.Tk()
         self.window.title("Login")
-        sv_ttk.set_theme("dark")
+        self.window.tk.call("source", "./tisb-hacks/azure.tcl")
+        self.window.tk.call("set_theme", "dark")
 
         self.username_frame = ttk.Frame(self.window)
         self.password_frame = ttk.Frame(self.window)
