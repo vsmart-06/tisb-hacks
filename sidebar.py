@@ -30,7 +30,7 @@ class Sidebar:
         self.home_btn = ttk.Button(self.sidebar, text = "Home", style = "Accent.TButton", command = lambda m = 0: self.open_tab(m))
         self.green_btn = ttk.Button(self.sidebar, text = "Book a ride", style = "Accent.TButton", command = lambda m = 1: self.open_tab(m))
         self.posts_btn = ttk.Button(self.sidebar, text = "Allow lifts", style = "Accent.TButton", command = lambda m = 2: self.open_tab(m))
-        self.events_btn = ttk.Button(self.sidebar, text = "Map", style = "Accent.TButton", command = lambda m = 3: self.open_tab(m))
+        self.events_btn = ttk.Button(self.sidebar, text = "Profile", style = "Accent.TButton", command = lambda m = 3: self.open_tab(m))
         self.logout_btn = ttk.Button(self.sidebar, text = "Log out", style = "Accent.TButton", command = lambda m = 4: self.open_tab(m))
         self.home_btn.grid(row = 0, column = 0, padx = 10, pady = 10)
         self.green_btn.grid(row = 1, column = 0, padx = 10)
@@ -61,7 +61,8 @@ class Sidebar:
     def open_tab(self, index):
         self.window.destroy()
         if index == 0:
-            pass
+            from home_page import Home
+            Home(self.username)
         elif index == 1:
             pass
         elif index == 2:
