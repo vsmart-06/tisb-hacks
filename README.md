@@ -14,6 +14,8 @@ Team name: Operation ByteSmash
 
 ---
 
-Frontend: Python tkinter
+Front-end: Python tkinter
 
-Backend: SQLite
+Back-end: SQLite
+
+Theme: Sun Valley
