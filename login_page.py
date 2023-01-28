@@ -134,7 +134,7 @@ class Login:
                 self.error_lbl_pwd.grid_forget()
             except:
                 pass
-            self.error_lbl_pwd = ttk.Label(self.username_frame, text = "Invalid password", foreground = "red")
+            self.error_lbl_pwd = ttk.Label(self.password_frame, text = "Invalid password", foreground = "red")
             self.error_lbl_pwd.grid(row = 1, column = 1, pady = 10)
             return
         caps = False
