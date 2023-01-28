@@ -30,6 +30,6 @@ class Home:
         self.map_lbl.grid(row = 1, column = 0, padx = 20, pady = (10, 20))
 
         self.window.update()
-        self.sidebar = Sidebar(self.window, username)
+        self.sidebar = Sidebar(self.window, username, True)
 
         self.window.mainloop()
