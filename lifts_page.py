@@ -48,9 +48,9 @@ class Lifts:
         self.window.mainloop()
     
     def current_location(self):
-        latlon = requests.post(f"https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBvcoLjnauAgedFOvfvJdcdDZP1QHqHHdI").json()["location"]
+        latlon = requests.post(f"https://www.googleapis.com/geolocation/v1/geolocate?key={API_KEY}").json()["location"]
 
-        address = requests.get(f"https://maps.googleapis.com/maps/api/geocode/json?latlng={latlon['lat']},{latlon['lng']}&key=AIzaSyBvcoLjnauAgedFOvfvJdcdDZP1QHqHHdI").json()["results"][0]["formatted_address"]
+        address = requests.get(f"https://maps.googleapis.com/maps/api/geocode/json?latlng={latlon['lat']},{latlon['lng']}&key={API_KEY}").json()["results"][0]["formatted_address"]
 
         address = ", ".join(address.split(", ")[1:])
 
