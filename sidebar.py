@@ -67,7 +67,8 @@ class Sidebar:
             from home_page import Home
             Home(self.username)
         elif index == 1:
-            pass
+            from book_page import Book
+            Book(self.username)
         elif index == 2:
             pass
         elif index == 3:

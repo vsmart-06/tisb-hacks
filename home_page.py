@@ -24,8 +24,8 @@ class Home:
         self.map_title.grid(row = 0, column = 0, pady = 20, padx = (20, 10))
         latlon = requests.post(f"https://www.googleapis.com/geolocation/v1/geolocate?key={API_KEY}").json()["location"]
         self.map = f"https://maps.googleapis.com/maps/api/staticmap?center={latlon['lat']},{latlon['lng']}&size=500x500&zoom=15&markers=color:red|{latlon['lat']},{latlon['lng']}&key={API_KEY}"
-        request.urlretrieve(self.map, "./tisb-hacks/map.png")
-        self.img = ImageTk.PhotoImage(Image.open("./tisb-hacks/map.png"))
+        request.urlretrieve(self.map, "./tisb-hacks/assets/map.png")
+        self.img = ImageTk.PhotoImage(Image.open("./tisb-hacks/assets/map.png"))
         self.map_lbl = ttk.Label(self.main_frame, image = self.img)
         self.map_lbl.grid(row = 1, column = 0, padx = 20, pady = (10, 20))
 
