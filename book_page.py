@@ -4,6 +4,7 @@ import requests
 from urllib import request
 import os
 import dotenv
+from PIL import Image, ImageTk
 from sidebar import Sidebar
 from records import *
 
@@ -32,7 +33,7 @@ class Book:
         self.drop_search = ttk.Button(self.drop_frame, text = "Search", command = self.search_place)
         self.drop_search.grid(row = 0, column = 2, padx = 10, pady = 10)
 
-        self.find_btn = ttk.Button(self.main_frame, text = "Find Carpoolers", style = "Accent.TButton")
+        self.find_btn = ttk.Button(self.main_frame, text = "Find Carpoolers", style = "Accent.TButton", command = self.find_drivers)
         self.find_btn.grid(row = 1, column = 0, pady = 30)
 
         self.window.update()
@@ -76,5 +77,43 @@ class Book:
     
     def find_drivers(self):
         self.window.destroy()
+        self.sub_window = tk.Tk()
+        self.sub_window.tk.call("source", "./tisb-hacks/azure.tcl")
+        self.sub_window.tk.call("set_theme", "dark")
+
+        self.sub_main_frame = ttk.Frame(self.sub_window)
+        self.sub_main_frame.grid(row = 0, column = 1)
+
+        self.maps_frame = ttk.Frame(self.sub_main_frame)
+        self.maps_frame.grid(row = 0, column = 0)
+
+        options = get_lifts()
+        
+        self.maps_lbls = []
+        self.maps = []
+        self.maps_select = []
+        for x in range(len(options)):
+            self.map = f"https://maps.googleapis.com/maps/api/staticmap?size=300x300&markers=color:blue|label:A|{options[x][2].replace(' ', '%20')}&markers=color:blue|label:B|{options[x][3].replace(' ', '%20')}&markers=color:red|{self.chosen_place.replace(' ', '%20')}&path=enc:{options[x][4]}&key={API_KEY}"
+            request.urlretrieve(self.map, f"./tisb-hacks/assets/map_route_{x}.png")
+
+            self.maps.append(ImageTk.PhotoImage(Image.open(f"./tisb-hacks/assets/map_route_{x}.png")))
+            self.maps_lbls.append(ttk.Label(self.maps_frame, image = self.maps[x]))
+            self.maps_lbls[x].grid(row = x, column = 0, padx = 20, pady = 10)
+            self.maps_select.append(ttk.Button(self.maps_frame, text = "Select", style = "Accent.TButton", command = lambda m = x: self.select_map(m)))
+            self.maps_select[x].grid(row = x, column = 1, padx = 20, pady = (0, 10))
+        
+        self.sub_window.update()
+        self.sidebar = Sidebar(self.sub_window, self.username)
+    
+    def select_map(self, index):
+        self.maps_frame.destroy()
+        self.maps_frame = ttk.Frame(self.sub_main_frame)
+        self.maps_frame.grid(row = 0, column = 0)
+
+        self.chosen_map = ImageTk.PhotoImage(Image.open(f"./tisb-hacks/assets/map_route_{index}.png"))
+        self.chosen_index = index
+        self.chosen_map_lbl = ttk.Label(self.maps_frame, image = self.chosen_map)
+        self.chosen_map_lbl.grid(row = 0, column = 0, padx = 20, pady = 20)
+
 
 Book("vishnu")
