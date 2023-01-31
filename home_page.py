@@ -16,6 +16,7 @@ class Home:
         self.window = tk.Tk()
         self.window.tk.call("source", "./tisb-hacks/azure.tcl")
         self.window.tk.call("set_theme", "dark")
+        self.window.title("Home")
 
         self.main_frame = ttk.Frame(self.window)
         self.main_frame.grid(row = 0, column = 1)

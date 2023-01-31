@@ -33,7 +33,7 @@ class Lifts:
         self.start_ent.grid(row = 0, column = 1, padx = 10, pady = 10, sticky = "ew")
         self.current_loc = ttk.Button(self.start_frame, text = "Current location", style = "Accent.TButton", command = self.current_location)
         self.current_loc.grid(row = 1, column = 1, padx = 10, pady = (0, 10), sticky = "ew")
-        self.search_btn = ttk.Button(self.start_frame, text = "Search", style = "Accent.TButton", command = lambda m = True: self.search_place(m))
+        self.search_btn = ttk.Button(self.start_frame, text = "Search", command = lambda m = True: self.search_place(m))
         self.search_btn.grid(row = 0, column = 2, padx = 10, pady = 10)
 
         self.end_frame = ttk.Frame(self.main_frame)
@@ -42,11 +42,11 @@ class Lifts:
         self.end_lbl.grid(row = 0, column = 0, padx = 10, pady = 10)
         self.end_ent = ttk.Entry(self.end_frame)
         self.end_ent.grid(row = 0, column = 1, padx = 10, pady = 10, sticky = "ew")
-        self.search_btn = ttk.Button(self.end_frame, text = "Search", style = "Accent.TButton", command = lambda m = False: self.search_place(m))
+        self.search_btn = ttk.Button(self.end_frame, text = "Search", command = lambda m = False: self.search_place(m))
         self.search_btn.grid(row = 0, column = 2, padx = 10, pady = 10)
 
         self.create_trip = ttk.Button(self.main_frame, text = "Create lift", style = "Accent.TButton", command = self.create_lift)
-        self.create_trip.grid(row = 3, column = 0, sticky = "e", padx  = 10, pady = 10)
+        self.create_trip.grid(row = 3, column = 0, sticky = "e", padx  = 10, pady = 30)
 
         self.window.update()
         self.sidebar = Sidebar(self.window, self.username)

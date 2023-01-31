@@ -82,6 +82,18 @@ def add_lift(username: str, origin: str, destination: str, path: str):
     c.close()
     conn.close()
 
+def get_lifts(id: int = None):
+    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    c = conn.cursor()
+    if not id:
+        c.execute("SELECT * FROM lifts")
+        lifts = c.fetchall()
+    else:
+        c.execute(f"SELECT * FROM lifts WHERE id = {id}")
+        lifts = c.fetchone()
+    c.close()
+    conn.close()
+    return lifts
 
 c.close()
 conn.close()
