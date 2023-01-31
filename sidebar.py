@@ -70,7 +70,8 @@ class Sidebar:
             from book_page import Book
             Book(self.username)
         elif index == 2:
-            pass
+            from lifts_page import Lifts
+            Lifts(self.username)
         elif index == 3:
             pass
         elif index == 4:

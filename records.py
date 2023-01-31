@@ -10,6 +10,15 @@ c.execute('''
         credits INTEGER NOT NULL
     )
 ''')
+c.execute('''
+    CREATE TABLE IF NOT EXISTS lifts (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL,
+        origin TEXT NOT NULL,
+        destination TEXT NOT NULL,
+        path TEXT NOT NULL
+    )
+''')
 conn.commit()
 
 def user_login(username: str, password: str):
@@ -45,6 +54,8 @@ def get_credits(username: str):
     c = conn.cursor()
     c.execute(f"SELECT credits FROM user_details WHERE username = '{username}'")
     creds = c.fetchone()[0]
+    c.close()
+    conn.close()
     return creds
 
 def change_credits(username: str, amount: int, add: bool):
@@ -57,6 +68,20 @@ def change_credits(username: str, amount: int, add: bool):
     else:
         new_creds = old_creds - amount
     c.execute(f"UPDATE user_details SET credits = {new_creds} WHERE username = '{username}'")
+    conn.commit()
+    c.close()
+    conn.close()
+
+def add_lift(username: str, origin: str, destination: str, path: str):
+    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    c = conn.cursor()
+    origin = origin.replace("'", "")
+    destination = destination.replace("'", "")
+    c.execute(f"INSERT INTO lifts (username, origin, destination, path) VALUES ('{username}', '{origin}', '{destination}', '{path}')")
+    conn.commit()
+    c.close()
+    conn.close()
+
 
 c.close()
 conn.close()

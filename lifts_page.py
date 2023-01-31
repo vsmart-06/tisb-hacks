@@ -6,6 +6,8 @@ import dotenv
 import requests
 from urllib import request
 from PIL import Image, ImageTk
+from records import *
+from home_page import Home
 
 dotenv.load_dotenv()
 
@@ -16,6 +18,7 @@ class Lifts:
         self.username = username
 
         self.window = tk.Tk()
+        self.window.title("Lifts")
         self.window.tk.call("source", "./tisb-hacks/azure.tcl")
         self.window.tk.call("set_theme", "dark")
 
@@ -42,12 +45,19 @@ class Lifts:
         self.search_btn = ttk.Button(self.end_frame, text = "Search", style = "Accent.TButton", command = lambda m = False: self.search_place(m))
         self.search_btn.grid(row = 0, column = 2, padx = 10, pady = 10)
 
+        self.create_trip = ttk.Button(self.main_frame, text = "Create lift", style = "Accent.TButton", command = self.create_lift)
+        self.create_trip.grid(row = 3, column = 0, sticky = "e", padx  = 10, pady = 10)
+
         self.window.update()
         self.sidebar = Sidebar(self.window, self.username)
 
         self.window.mainloop()
     
     def current_location(self):
+        try:
+            self.error_lbl.destroy()
+        except:
+            pass
         latlon = requests.post(f"https://www.googleapis.com/geolocation/v1/geolocate?key={API_KEY}").json()["location"]
 
         address = requests.get(f"https://maps.googleapis.com/maps/api/geocode/json?latlng={latlon['lat']},{latlon['lng']}&key={API_KEY}").json()["results"][0]["formatted_address"]
@@ -61,6 +71,10 @@ class Lifts:
 
 
     def search_place(self, start: bool):
+        try:
+            self.error_lbl.destroy()
+        except:
+            pass
         if start:
             place_string = self.start_ent.get()
         else:
@@ -98,6 +112,10 @@ class Lifts:
         self.sidebar = Sidebar(self.window, self.username)
     
     def choose_place(self, index, start: bool):
+        try:
+            self.error_lbl.destroy()
+        except:
+            pass
         if start:
             place = self.places_btns_start[index]["text"]
             self.start_ent.delete(0, "end")
@@ -118,6 +136,10 @@ class Lifts:
         self.create_map()
     
     def create_map(self):
+        try:
+            self.error_lbl.destroy()
+        except:
+            pass
         origin = self.start_ent.get()
         destination = self.end_ent.get()
 
@@ -129,7 +151,7 @@ class Lifts:
 
         directions = requests.get(f"https://maps.googleapis.com/maps/api/directions/json?origin={origin}&destination={destination}&alternatives=true&key={API_KEY}").json()
 
-        routes = [x["overview_polyline"]["points"] for x in directions["routes"]]
+        self.routes = [x["overview_polyline"]["points"] for x in directions["routes"]]
         
         try:
             self.maps_frame.destroy()
@@ -142,8 +164,8 @@ class Lifts:
         self.maps_lbls = []
         self.maps = []
         self.maps_select = []
-        for x in range(len(routes)):
-            self.map = f"https://maps.googleapis.com/maps/api/staticmap?size=300x300&markers=color:blue|{origin.replace(' ', '%20')}&markers=color:red|{destination.replace(' ', '%20')}&path=enc:{routes[x]}&key={API_KEY}"
+        for x in range(len(self.routes)):
+            self.map = f"https://maps.googleapis.com/maps/api/staticmap?size=300x300&markers=color:blue|{origin.replace(' ', '%20')}&markers=color:red|{destination.replace(' ', '%20')}&path=enc:{self.routes[x]}&key={API_KEY}"
             request.urlretrieve(self.map, f"./tisb-hacks/assets/map_route_{x}.png")
 
             self.maps.append(ImageTk.PhotoImage(Image.open(f"./tisb-hacks/assets/map_route_{x}.png")))
@@ -151,15 +173,53 @@ class Lifts:
             self.maps_lbls[x].grid(row = 0, column = x, padx = 20, pady = 10)
             self.maps_select.append(ttk.Button(self.maps_frame, text = "Select", style = "Accent.TButton", command = lambda m = x: self.select_map(m)))
             self.maps_select[x].grid(row = 1, column = x, padx = 20, pady = (0, 10))
+        
+        self.origin = origin
+        self.destination = destination
     
     def select_map(self, index):
+        try:
+            self.error_lbl.destroy()
+        except:
+            pass
         self.maps_frame.destroy()
         self.maps_frame = ttk.Frame(self.main_frame)
         self.maps_frame.grid(row = 2, column = 0)
 
         self.chosen_map = ImageTk.PhotoImage(Image.open(f"./tisb-hacks/assets/map_route_{index}.png"))
+        self.chosen_index = index
         self.chosen_map_lbl = ttk.Label(self.maps_frame, image = self.chosen_map)
         self.chosen_map_lbl.grid(row = 0, column = 0)
+    
+    def create_lift(self):
+        try:
+            self.error_lbl.destroy()
+        except:
+            pass
+        try:
+            add_lift(self.username, self.origin, self.destination, self.routes[self.chosen_index])
 
+            self.window.destroy()
+            self.sub_window = tk.Tk()
+            self.sub_window.title("Lifts")
+            self.sub_window.tk.call("source", "./tisb-hacks/azure.tcl")
+            self.sub_window.tk.call("set_theme", "dark")
 
-Lifts("vishnu")
+            self.confirmation = ttk.Label(self.sub_window, text = f"You have successfully created a lift!\n\n\nStarting point: {self.origin}\n\nDestination: {self.destination}", justify = "center")
+            self.confirmation.grid(row = 0, column = 0, padx = 10, pady = 10)
+            self.chosen_map = ImageTk.PhotoImage(Image.open(f"./tisb-hacks/assets/map_route_{self.chosen_index}.png"))
+            self.confirmation_map = ttk.Label(self.sub_window, image = self.chosen_map)
+            self.confirmation_map.grid(row = 1, column = 0, padx = 10, pady = 10)
+            self.sub_window.mainloop()
+
+            Home(self.username)
+
+        except:
+            self.error_lbl = ttk.Label(self.main_frame, text = "", foreground = "red")
+            self.error_lbl.grid(row = 3, column = 0)
+            if not self.origin or self.origin == "":
+                self.error_lbl.config(text = "You have to input a start location")
+            elif not self.destination or self.destination == "":
+                self.error_lbl.config(text = "You have to input a destination")
+            else:
+                self.error_lbl.config(text = "You have to choose a path")
