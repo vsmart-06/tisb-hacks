@@ -98,7 +98,7 @@ class Book:
 
             self.maps.append(ImageTk.PhotoImage(Image.open(f"./tisb-hacks/assets/map_route_{x}.png")))
             self.maps_lbls.append(ttk.Label(self.maps_frame, image = self.maps[x]))
-            self.maps_lbls[x].grid(row = x, column = 0, padx = 20, pady = 10)
+            self.maps_lbls[x].grid(row = x, column = 0, padx = 20, pady = 20)
             self.maps_select.append(ttk.Button(self.maps_frame, text = "Select", style = "Accent.TButton", command = lambda m = x: self.select_map(m)))
             self.maps_select[x].grid(row = x, column = 1, padx = 20, pady = (0, 10))
         
@@ -114,6 +114,3 @@ class Book:
         self.chosen_index = index
         self.chosen_map_lbl = ttk.Label(self.maps_frame, image = self.chosen_map)
         self.chosen_map_lbl.grid(row = 0, column = 0, padx = 20, pady = 20)
-
-
-Book("vishnu")
