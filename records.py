@@ -16,7 +16,15 @@ c.execute('''
         username TEXT NOT NULL,
         origin TEXT NOT NULL,
         destination TEXT NOT NULL,
-        path TEXT NOT NULL
+        path TEXT NOT NULL,
+        pickup TEXT,
+        rider TEXT
+    )
+''')
+c.execute('''
+    CREATE TABLE IF NOT EXISTS notifications (
+        username TEXT NOT NULL PRIMARY KEY,
+        message TEXT NOT NULL
     )
 ''')
 conn.commit()
@@ -86,7 +94,7 @@ def get_lifts(id: int = None):
     conn = db.connect("tisb-hacks/tisb-hacks.db")
     c = conn.cursor()
     if not id:
-        c.execute("SELECT * FROM lifts")
+        c.execute("SELECT * FROM lifts WHERE rider IS NULL")
         lifts = c.fetchall()
     else:
         c.execute(f"SELECT * FROM lifts WHERE id = {id}")
@@ -94,6 +102,30 @@ def get_lifts(id: int = None):
     c.close()
     conn.close()
     return lifts
+
+def book_lift(id: int, rider: str, pickup: str, driver: str, destination: str):
+    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    c = conn.cursor()
+    pickup = pickup.replace("'", "")
+    c.execute(f"UPDATE lifts SET rider = '{rider}', pickup = '{pickup}' WHERE id = {id}")
+    c.execute(f"INSERT INTO notifications VALUES ('{driver}', 'The user {rider} has decided to accompany you on your journey to {destination}. He wishes to be picked up at {pickup}. Do you wish to approve of this rider?')")
+    conn.commit()
+    c.close()
+    conn.close()
+
+def get_notifications(username: str):
+    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    c = conn.cursor()
+    try:
+        c.execute(f"SELECT * FROM notifications WHERE username = '{username}'")
+        notification = c.fetchone()
+        c.execute(f"DELETE FROM notifications WHERE username = '{username}'")
+        conn.commit()
+    except:
+        notification = None
+    c.close()
+    conn.close()
+    return notification
 
 c.close()
 conn.close()

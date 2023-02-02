@@ -7,6 +7,7 @@ import dotenv
 from PIL import Image, ImageTk
 from sidebar import Sidebar
 from records import *
+from home_page import Home
 
 dotenv.load_dotenv()
 
@@ -214,7 +215,13 @@ class Book:
         self.maps_lbl.grid(row = 0, column = 0, padx = 20, pady = 20)
     
     def book_ride(self):
-        pass
+        book_lift(self.data[0], self.username, self.chosen_place, self.data[1], self.data[3])
+        self.pickup_window.destroy()
+        self.final_window = tk.Tk()
+        self.final_window.tk.call("source", "./tisb-hacks/azure.tcl")
+        self.final_window.tk.call("set_theme", "dark")
 
-
-Book("vishnu")
+        confirmation_lbl = ttk.Label(self.final_window, text = "You have successfully booked the ride.\n\nYou will receive a notification when your carpooler accepts your request and approves your pickup location.")
+        confirmation_lbl.grid(row = 0, column = 0, padx = 20, pady = 20)
+        self.final_window.mainloop()
+        Home(self.username)

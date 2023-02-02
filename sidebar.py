@@ -32,14 +32,16 @@ class Sidebar:
         self.green_btn = ttk.Button(self.sidebar, text = "Book a ride", style = "Accent.TButton", command = lambda m = 1: self.open_tab(m))
         self.posts_btn = ttk.Button(self.sidebar, text = "Allow lifts", style = "Accent.TButton", command = lambda m = 2: self.open_tab(m))
         self.events_btn = ttk.Button(self.sidebar, text = "Profile", style = "Accent.TButton", command = lambda m = 3: self.open_tab(m))
-        self.logout_btn = ttk.Button(self.sidebar, text = "Log out", style = "Accent.TButton", command = lambda m = 4: self.open_tab(m))
+        self.notifs_btn = ttk.Button(self.sidebar, text = "Notifications", style = "Accent.TButton", command = lambda m = 4: self.open_tab(m))
+        self.logout_btn = ttk.Button(self.sidebar, text = "Log out", style = "Accent.TButton", command = lambda m = 5: self.open_tab(m))
         self.credits_lbl = ttk.Label(self.sidebar, text = f"Credits: {get_credits(self.username)}")
         self.home_btn.grid(row = 0, column = 0, padx = 10, pady = 10)
         self.green_btn.grid(row = 1, column = 0, padx = 10)
         self.posts_btn.grid(row = 2, column = 0, padx = 10, pady = 10)
         self.events_btn.grid(row = 3, column = 0, padx = 10)
-        self.logout_btn.grid(row = 4, column = 0, padx = 10, pady = (10, 20))
-        self.credits_lbl.grid(row = 5, column = 0, padx = 10)
+        self.notifs_btn.grid(row = 4, column = 0, padx = 10, pady = 10)
+        self.logout_btn.grid(row = 5, column = 0, padx = 10)
+        self.credits_lbl.grid(row = 6, column = 0, padx = 10, pady = 10)
 
         self.expanded = False
     
@@ -75,4 +77,6 @@ class Sidebar:
         elif index == 3:
             pass
         elif index == 4:
+            pass
+        elif index == 5:
             pass
