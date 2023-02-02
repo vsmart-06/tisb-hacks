@@ -31,26 +31,31 @@ class Notifications:
             notif_msg = ttk.Label(self.main_frame, text = self.notifs[3], justify = "center")
             notif_msg.grid(row = 0, column = 0, padx = 10, pady = 10)
 
-            self.map_url = f"https://maps.googleapis.com/maps/api/staticmap?size=300x300&markers=color:blue|label:A|{self.lift[2]}&markers=color:blue|label:B|{self.lift[3]}&markers=color:red|{self.notifs[2]}&path=enc:{self.lift[4]}&key={API_KEY}"
-            request.urlretrieve(self.map_url, f"./tisb-hacks/assets/map_route_notification.png")
+            if self.notifs[4] == 0:
+                self.window.protocol("WM_DELETE_WINDOW", lambda: None)
+                self.map_url = f"https://maps.googleapis.com/maps/api/staticmap?size=300x300&markers=color:blue|label:A|{self.lift[2].replace(' ', '%20')}&markers=color:blue|label:B|{self.lift[3].replace(' ', '%20')}&markers=color:red|{self.notifs[2].replace(' ', '%20')}&path=enc:{self.lift[4]}&key={API_KEY}"
+                request.urlretrieve(self.map_url, f"./tisb-hacks/assets/map_route_notification.png")
 
-            self.map = ImageTk.PhotoImage(Image.open(f"./tisb-hacks/assets/map_route_notification.png"))
-            self.maps_lbl = ttk.Label(self.main_frame, image = self.map)
-            self.maps_lbl.grid(row = 1, column = 0, padx = 20, pady = 20)
+                self.map = ImageTk.PhotoImage(Image.open(f"./tisb-hacks/assets/map_route_notification.png"))
+                self.maps_lbl = ttk.Label(self.main_frame, image = self.map)
+                self.maps_lbl.grid(row = 1, column = 0, padx = 20, pady = 20)
 
-            self.btns_frame = ttk.Frame(self.main_frame)
-            self.btns_frame.grid(row = 2, column = 0, padx = 10, pady = 10)
+                self.btns_frame = ttk.Frame(self.main_frame)
+                self.btns_frame.grid(row = 2, column = 0, padx = 10, pady = 10)
 
-            self.accept_btn = ttk.Button(self.btns_frame, text = "Accept", style = "Accent.TButton")
-            self.accept_btn.grid(row = 0, column = 0, padx = 10, pady = 10)
-            self.decline_btn = ttk.Button(self.btns_frame, text = "Decline")
-            self.decline_btn.grid(row = 0, column = 1)
+                self.accept_btn = ttk.Button(self.btns_frame, text = "Accept", style = "Accent.TButton")
+                self.accept_btn.grid(row = 0, column = 0, padx = 10, pady = 10)
+                self.decline_btn = ttk.Button(self.btns_frame, text = "Decline")
+                self.decline_btn.grid(row = 0, column = 1)
+            else:
+                self.window.update()
+                self.sidebar = Sidebar(self.window, self.username)
         
         else:
             notif_msg = ttk.Label(self.main_frame, text = "You have no notifications to view")
             notif_msg.grid(row = 0, column = 0, padx = 20, pady = 20)
 
-        self.window.update()
-        self.sidebar = Sidebar(self.window, self.username)
+            self.window.update()
+            self.sidebar = Sidebar(self.window, self.username)
 
         self.window.mainloop()

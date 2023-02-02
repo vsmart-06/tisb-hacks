@@ -23,10 +23,11 @@ c.execute('''
 ''')
 c.execute('''
     CREATE TABLE IF NOT EXISTS notifications (
-        lift_id INT NOT NULL PRIMARY KEY,
+        lift_id INTEGER NOT NULL PRIMARY KEY,
         username TEXT NOT NULL,
         pickup TEXT NOT NULL,
-        message TEXT NOT NULL
+        message TEXT NOT NULL,
+        type INTEGER NOT NULL
     )
 ''')
 conn.commit()
@@ -110,7 +111,7 @@ def book_lift(id: int, rider: str, pickup: str, driver: str, destination: str):
     c = conn.cursor()
     pickup = pickup.replace("'", "")
     c.execute(f"UPDATE lifts SET rider = '{rider}', pickup = '{pickup}' WHERE id = {id}")
-    c.execute(f"INSERT INTO notifications VALUES ({id}, '{driver}', '{pickup}', 'The user {rider} has decided to accompany you on your journey to {destination}.\nHe wishes to be picked up at {pickup}. Do you wish to approve of this rider?')")
+    c.execute(f"INSERT INTO notifications VALUES ({id}, '{driver}', '{pickup}', 'The user {rider} has decided to accompany you on your journey to {destination}.\nHe wishes to be picked up at {pickup}. Do you wish to approve of this rider?', 0)")
     conn.commit()
     c.close()
     conn.close()
@@ -126,6 +127,15 @@ def get_notifications(username: str):
     c.close()
     conn.close()
     return notification
+
+def add_notification(id: int, username: str, pickup: str, text: str, type: int):
+    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    c = conn.cursor()
+    pickup = pickup.replace("'", "")
+    c.execute(f"INSERT INTO notifications VALUES ({id}, '{username}', '{pickup}', '{text}', {type})")
+    conn.commit()
+    c.close()
+    conn.close()
 
 c.close()
 conn.close()
