@@ -35,12 +35,12 @@ class Sidebar:
         self.notifs_btn = ttk.Button(self.sidebar, text = "Notifications", style = "Accent.TButton", command = lambda m = 4: self.open_tab(m))
         self.logout_btn = ttk.Button(self.sidebar, text = "Log out", style = "Accent.TButton", command = lambda m = 5: self.open_tab(m))
         self.credits_lbl = ttk.Label(self.sidebar, text = f"Credits: {get_credits(self.username)}")
-        self.home_btn.grid(row = 0, column = 0, padx = 10, pady = 10)
-        self.green_btn.grid(row = 1, column = 0, padx = 10)
-        self.posts_btn.grid(row = 2, column = 0, padx = 10, pady = 10)
-        self.events_btn.grid(row = 3, column = 0, padx = 10)
-        self.notifs_btn.grid(row = 4, column = 0, padx = 10, pady = 10)
-        self.logout_btn.grid(row = 5, column = 0, padx = 10)
+        self.home_btn.grid(row = 0, column = 0, padx = 10, pady = 10, sticky = "ew")
+        self.green_btn.grid(row = 1, column = 0, padx = 10, sticky = "ew")
+        self.posts_btn.grid(row = 2, column = 0, padx = 10, pady = 10, sticky = "ew")
+        self.events_btn.grid(row = 3, column = 0, padx = 10, sticky = "ew")
+        self.notifs_btn.grid(row = 4, column = 0, padx = 10, pady = 10, sticky = "ew")
+        self.logout_btn.grid(row = 5, column = 0, padx = 10, sticky = "ew")
         self.credits_lbl.grid(row = 6, column = 0, padx = 10, pady = 10)
 
         self.expanded = False
@@ -77,6 +77,7 @@ class Sidebar:
         elif index == 3:
             pass
         elif index == 4:
-            pass
+            from notifications_page import Notifications
+            Notifications(self.username)
         elif index == 5:
             pass

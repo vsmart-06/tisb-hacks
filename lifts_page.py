@@ -48,6 +48,9 @@ class Lifts:
         self.create_trip = ttk.Button(self.main_frame, text = "Create lift", style = "Accent.TButton", command = self.create_lift)
         self.create_trip.grid(row = 3, column = 0, sticky = "e", padx  = 10, pady = 30)
 
+        self.origin = None
+        self.destination = None
+
         self.window.update()
         self.sidebar = Sidebar(self.window, self.username)
 
@@ -124,6 +127,7 @@ class Lifts:
                 self.places_frame_start.destroy()
             except:
                 pass
+            self.origin = place
         else:
             place = self.places_btns_end[index]["text"]
             self.end_ent.delete(0, "end")
@@ -132,6 +136,7 @@ class Lifts:
                 self.places_frame_end.destroy()
             except:
                 pass
+            self.destination = place
         
         self.create_map()
     

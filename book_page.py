@@ -44,6 +44,10 @@ class Book:
         self.window.mainloop()
     
     def search_place(self, pickup: bool = False):
+        try:
+            self.error_lbl.destroy()
+        except:
+            pass
         if not pickup:
             place_string = self.drop_ent.get()
 
@@ -116,6 +120,10 @@ class Book:
         try:
             self.sub_main_frame.destroy()
         except:
+            if self.drop_ent.get().strip() == "":
+                self.error_lbl = ttk.Label(self.main_frame, text = "Enter a destination", foreground = "red")
+                self.error_lbl.grid(row = 2, column = 0, padx = 10, pady = 10)
+                return
             self.window.destroy()
             self.sub_window = tk.Tk()
             self.sub_window.title("Book")
@@ -201,7 +209,7 @@ class Book:
         self.map_frame.grid(row = 1, column = 0)
 
         self.book_btn = ttk.Button(self.pickup_main_frame, text = "Book Ride", style = "Accent.TButton", command = self.book_ride)
-        self.book_btn.grid(row = 2, column = 0, padx = 10, pady = 10)
+        self.book_btn.grid(row = 3, column = 0, padx = 10, pady = 10)
 
         self.pickup_window.update()
         self.sidebar = Sidebar(self.pickup_window, self.username)
@@ -215,13 +223,18 @@ class Book:
         self.maps_lbl.grid(row = 0, column = 0, padx = 20, pady = 20)
     
     def book_ride(self):
+        if self.pickup_ent.get().strip() == "":
+            self.error_lbl = ttk.Label(self.pickup_frame, text = "Enter a pickup location", foreground = "red")
+            self.error_lbl.grid(row = 2, column = 0)
+            return
         book_lift(self.data[0], self.username, self.chosen_place, self.data[1], self.data[3])
         self.pickup_window.destroy()
         self.final_window = tk.Tk()
         self.final_window.tk.call("source", "./tisb-hacks/azure.tcl")
         self.final_window.tk.call("set_theme", "dark")
 
-        confirmation_lbl = ttk.Label(self.final_window, text = "You have successfully booked the ride.\n\nYou will receive a notification when your carpooler accepts your request and approves your pickup location.")
+        confirmation_lbl = ttk.Label(self.final_window, text = "You have successfully booked the ride.\n\nYou will receive a notification when your carpooler accepts your request and approves your pickup location.", justify = "center")
         confirmation_lbl.grid(row = 0, column = 0, padx = 20, pady = 20)
+
         self.final_window.mainloop()
         Home(self.username)

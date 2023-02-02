@@ -23,7 +23,9 @@ c.execute('''
 ''')
 c.execute('''
     CREATE TABLE IF NOT EXISTS notifications (
-        username TEXT NOT NULL PRIMARY KEY,
+        lift_id INT NOT NULL PRIMARY KEY,
+        username TEXT NOT NULL,
+        pickup TEXT NOT NULL,
         message TEXT NOT NULL
     )
 ''')
@@ -108,7 +110,7 @@ def book_lift(id: int, rider: str, pickup: str, driver: str, destination: str):
     c = conn.cursor()
     pickup = pickup.replace("'", "")
     c.execute(f"UPDATE lifts SET rider = '{rider}', pickup = '{pickup}' WHERE id = {id}")
-    c.execute(f"INSERT INTO notifications VALUES ('{driver}', 'The user {rider} has decided to accompany you on your journey to {destination}. He wishes to be picked up at {pickup}. Do you wish to approve of this rider?')")
+    c.execute(f"INSERT INTO notifications VALUES ({id}, '{driver}', '{pickup}', 'The user {rider} has decided to accompany you on your journey to {destination}.\nHe wishes to be picked up at {pickup}. Do you wish to approve of this rider?')")
     conn.commit()
     c.close()
     conn.close()
@@ -116,13 +118,11 @@ def book_lift(id: int, rider: str, pickup: str, driver: str, destination: str):
 def get_notifications(username: str):
     conn = db.connect("tisb-hacks/tisb-hacks.db")
     c = conn.cursor()
-    try:
-        c.execute(f"SELECT * FROM notifications WHERE username = '{username}'")
-        notification = c.fetchone()
+    c.execute(f"SELECT * FROM notifications WHERE username = '{username}'")
+    notification = c.fetchone()
+    if notification:
         c.execute(f"DELETE FROM notifications WHERE username = '{username}'")
         conn.commit()
-    except:
-        notification = None
     c.close()
     conn.close()
     return notification
