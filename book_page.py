@@ -42,6 +42,8 @@ class Book:
         self.sidebar = Sidebar(self.window, self.username)
 
         self.window.mainloop()
+
+        Home(self.username)
     
     def search_place(self, pickup: bool = False):
         try:
@@ -133,10 +135,18 @@ class Book:
         self.sub_main_frame = ttk.Frame(self.sub_window)
         self.sub_main_frame.grid(row = 0, column = 1)
 
+        options = get_lifts()
+
+        if len(options) == 0:
+            self.sub_window.geometry("500x500")
+            self.no_driver_lbl = ttk.Label(self.sub_main_frame, text = "There is nobody willing to carpool at the moment!")
+            self.no_driver_lbl.grid(row = 0, column = 0, padx = 50, pady = 10)
+            self.sub_window.update()
+            self.sidebar = Sidebar(self.sub_window, self.username, True)
+            return
+
         self.maps_frame = ttk.Frame(self.sub_main_frame)
         self.maps_frame.grid(row = 0, column = 0)
-
-        options = get_lifts()
         
         self.maps_lbls = []
         self.maps = []
@@ -237,4 +247,3 @@ class Book:
         confirmation_lbl.grid(row = 0, column = 0, padx = 20, pady = 20)
 
         self.final_window.mainloop()
-        Home(self.username)

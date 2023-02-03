@@ -116,6 +116,14 @@ def book_lift(id: int, rider: str, pickup: str, driver: str, destination: str):
     c.close()
     conn.close()
 
+def remove_rider(id: int):
+    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    c = conn.cursor()
+    c.execute(f"UPDATE lifts SET rider = NULL WHERE id = {id}")
+    conn.commit()
+    c.close()
+    conn.close()
+
 def get_notifications(username: str):
     conn = db.connect("tisb-hacks/tisb-hacks.db")
     c = conn.cursor()

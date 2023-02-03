@@ -55,6 +55,8 @@ class Lifts:
         self.sidebar = Sidebar(self.window, self.username)
 
         self.window.mainloop()
+
+        Home(self.username)
     
     def current_location(self):
         try:
@@ -216,8 +218,6 @@ class Lifts:
             self.confirmation_map = ttk.Label(self.sub_window, image = self.chosen_map)
             self.confirmation_map.grid(row = 1, column = 0, padx = 10, pady = 10)
             self.sub_window.mainloop()
-
-            Home(self.username)
 
         except:
             self.error_lbl = ttk.Label(self.main_frame, text = "", foreground = "red")
