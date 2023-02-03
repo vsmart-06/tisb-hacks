@@ -36,7 +36,7 @@ class Login:
         self.error_lbl.grid(row = 4, column = 0, columnspan = 2)
 
         self.window.mainloop()
-        os._exit(1)
+        os._exit(0)
 
     def login(self):
         self.username = self.username_ent.get().strip()
