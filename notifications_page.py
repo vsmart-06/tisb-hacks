@@ -54,10 +54,6 @@ class Notifications:
                 self.accept_btn.grid(row = 0, column = 0, padx = 10, pady = 10)
                 self.decline_btn = ttk.Button(self.btns_frame, text = "Decline", command = lambda m = False: self.approve_notif(m))
                 self.decline_btn.grid(row = 0, column = 1)
-            else:
-                self.window.geometry("500x500")
-                self.window.update()
-                self.sidebar = Sidebar(self.window, self.username, True)
         
         else:
             notif_msg = ttk.Label(self.main_frame, text = "You have no notifications to view")

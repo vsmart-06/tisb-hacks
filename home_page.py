@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from sidebar import Sidebar
+from login_page import Login
 import os
 import dotenv
 import requests
@@ -34,3 +35,5 @@ class Home:
         self.sidebar = Sidebar(self.window, username, True)
 
         self.window.mainloop()
+
+        Login()

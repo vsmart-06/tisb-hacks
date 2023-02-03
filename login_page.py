@@ -35,6 +35,7 @@ class Login:
         self.error_lbl.grid(row = 4, column = 0, columnspan = 2)
 
         self.window.mainloop()
+        quit()
 
     def login(self):
         self.username = self.username_ent.get().strip()
@@ -62,6 +63,8 @@ class Login:
         self.error_lbl.config(text = msg, foreground = colour)
         if result:
             self.window.destroy()
+            from home_page import Home
+            Home(self.username)
 
     def signup(self):
         self.username = self.username_ent.get().strip()

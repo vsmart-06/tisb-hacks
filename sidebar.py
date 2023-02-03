@@ -81,4 +81,5 @@ class Sidebar:
             from notifications_page import Notifications
             Notifications(self.username)
         elif index == 5:
-            pass
+            from login_page import Login
+            Login()

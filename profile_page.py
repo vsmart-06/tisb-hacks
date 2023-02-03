@@ -82,6 +82,11 @@ class Profile:
         user = self.profile_ent.get().strip()
         self.profile = get_profile(user)
 
+        try:
+            self.profile_frame.destroy()
+        except:
+            pass
+
         self.profile_frame = ttk.Frame(self.sub_main_frame)
         self.profile_frame.grid(row = 1, column = 0, padx = 10, pady = 10)
 
@@ -160,19 +165,26 @@ class Profile:
         self.sub_window.mainloop()
     
     def save_profile(self):
+        try:
+            self.confirmation_lbl.destroy()
+        except:
+            pass
         colour = "green"
         try:
-            if len(str(int(self.pno_ent.get().strip()))) != 10:
+            if self.pno_ent.get().strip() == "":
+                text = "Changes saved"
+                self.pno = "NULL"
+            elif len(str(int(self.pno_ent.get().strip()))) != 10:
                 text = "Your phone number can only contain 10 digits"
                 colour = "red"
             else:
-                int(self.pno_ent.get().strip())
+                self.pno = int(self.pno_ent.get().strip())
                 text = "Changes saved"
-                colour = "green"
+
         except:
             text = "Your phone number can only contain numbers"
             colour = "red"
         if colour == "green":
-            edit_profile(self.username, self.name_ent.get().strip(), int(self.pno_ent.get()), self.email_ent.get().strip())
+            edit_profile(self.username, self.name_ent.get().strip(), self.pno, self.email_ent.get().strip())
         self.confirmation_lbl = ttk.Label(self.sub_main_frame, text = text, foreground = colour)
         self.confirmation_lbl.grid(row = 4, column = 0, padx = 10, pady = 10)
