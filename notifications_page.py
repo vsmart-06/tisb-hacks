@@ -26,7 +26,7 @@ class Notifications:
 
         self.notifs = get_notifications(self.username)
         if self.notifs:
-            self.lift = get_lifts(self.notifs[0])
+            self.lift = get_lifts(self.username, self.notifs[0])
 
         if self.notifs:
             notif_msg = ttk.Label(self.main_frame, text = self.notifs[3], justify = "center")

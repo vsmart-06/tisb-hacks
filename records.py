@@ -102,11 +102,11 @@ def add_lift(username: str, origin: str, destination: str, path: str):
     c.close()
     conn.close()
 
-def get_lifts(id: int = None):
+def get_lifts(username: str, id: int = None):
     conn = db.connect("tisb-hacks.db")
     c = conn.cursor()
     if not id:
-        c.execute("SELECT * FROM lifts WHERE rider IS NULL")
+        c.execute(f"SELECT * FROM lifts WHERE rider IS NULL AND username != '{username}'")
         lifts = c.fetchall()
     else:
         c.execute(f"SELECT * FROM lifts WHERE id = {id}")

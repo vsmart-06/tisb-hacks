@@ -135,7 +135,7 @@ class Book:
         self.sub_main_frame = ttk.Frame(self.sub_window)
         self.sub_main_frame.grid(row = 0, column = 1)
 
-        options = get_lifts()
+        options = get_lifts(self.username)
 
         if len(options) == 0:
             self.sub_window.geometry("500x500")
@@ -175,7 +175,7 @@ class Book:
         self.maps_frame = ttk.Frame(self.sub_main_frame)
         self.maps_frame.grid(row = 1, column = 0)
 
-        self.data = get_lifts(id)
+        self.data = get_lifts(self.username, id)
 
         distances = requests.get(f"https://maps.googleapis.com/maps/api/distancematrix/json?origins={self.chosen_place.replace(' ', '%20')}&destinations={self.data[2].replace(' ', '%20')}|{self.data[3].replace(' ', '%20')}&mode=walking&key={API_KEY}").json()
 
