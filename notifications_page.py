@@ -18,7 +18,7 @@ class Notifications:
         self.username = username
         self.window = tk.Tk()
         self.window.title("Notifications")
-        self.window.tk.call("source", "./tisb-hacks/azure.tcl")
+        self.window.tk.call("source", "./azure.tcl")
         self.window.tk.call("set_theme", "dark")
 
         self.main_frame = ttk.Frame(self.window)
@@ -35,9 +35,9 @@ class Notifications:
             if self.notifs[4] == 0:
                 self.window.protocol("WM_DELETE_WINDOW", lambda: None)
                 self.map_url = f"https://maps.googleapis.com/maps/api/staticmap?size=300x300&markers=color:blue|label:A|{self.lift[2].replace(' ', '%20')}&markers=color:blue|label:B|{self.lift[3].replace(' ', '%20')}&markers=color:red|{self.notifs[2].replace(' ', '%20')}&path=enc:{self.lift[4]}&key={API_KEY}"
-                request.urlretrieve(self.map_url, f"./tisb-hacks/assets/map_route_notification.png")
+                request.urlretrieve(self.map_url, f"./assets/map_route_notification.png")
 
-                self.map = ImageTk.PhotoImage(Image.open(f"./tisb-hacks/assets/map_route_notification.png"))
+                self.map = ImageTk.PhotoImage(Image.open(f"./assets/map_route_notification.png"))
                 self.maps_lbl = ttk.Label(self.main_frame, image = self.map)
                 self.maps_lbl.grid(row = 1, column = 0, padx = 20, pady = 20)
 

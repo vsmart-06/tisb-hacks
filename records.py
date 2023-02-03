@@ -1,6 +1,6 @@
 import sqlite3 as db
 
-conn = db.connect("tisb-hacks/tisb-hacks.db")
+conn = db.connect("tisb-hacks.db")
 c = conn.cursor()
 
 c.execute('''
@@ -41,7 +41,7 @@ c.execute('''
 conn.commit()
 
 def user_login(username: str, password: str):
-    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    conn = db.connect("tisb-hacks.db")
     c = conn.cursor()
     c.execute(f"SELECT * FROM user_details WHERE username = '{username}' AND password = '{password}'")
     record = c.fetchone()
@@ -54,7 +54,7 @@ def user_login(username: str, password: str):
     return True
 
 def user_signup(username: str, password: str):
-    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    conn = db.connect("tisb-hacks.db")
     c = conn.cursor()
     c.execute(f"SELECT * FROM user_details WHERE username = '{username}'")
     record = c.fetchone()
@@ -70,7 +70,7 @@ def user_signup(username: str, password: str):
     return False
 
 def get_credits(username: str):
-    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    conn = db.connect("tisb-hacks.db")
     c = conn.cursor()
     c.execute(f"SELECT credits FROM user_details WHERE username = '{username}'")
     creds = c.fetchone()[0]
@@ -79,7 +79,7 @@ def get_credits(username: str):
     return creds
 
 def change_credits(username: str, amount: int, add: bool):
-    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    conn = db.connect("tisb-hacks.db")
     c = conn.cursor()
     c.execute(f"SELECT credits FROM user_details WHERE username = '{username}'")
     old_creds = c.fetchone()[0]
@@ -93,7 +93,7 @@ def change_credits(username: str, amount: int, add: bool):
     conn.close()
 
 def add_lift(username: str, origin: str, destination: str, path: str):
-    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    conn = db.connect("tisb-hacks.db")
     c = conn.cursor()
     origin = origin.replace("'", "")
     destination = destination.replace("'", "")
@@ -103,7 +103,7 @@ def add_lift(username: str, origin: str, destination: str, path: str):
     conn.close()
 
 def get_lifts(id: int = None):
-    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    conn = db.connect("tisb-hacks.db")
     c = conn.cursor()
     if not id:
         c.execute("SELECT * FROM lifts WHERE rider IS NULL")
@@ -116,7 +116,7 @@ def get_lifts(id: int = None):
     return lifts
 
 def book_lift(id: int, rider: str, pickup: str, driver: str, destination: str):
-    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    conn = db.connect("tisb-hacks.db")
     c = conn.cursor()
     pickup = pickup.replace("'", "")
     c.execute(f"UPDATE lifts SET rider = '{rider}', pickup = '{pickup}' WHERE id = {id}")
@@ -126,7 +126,7 @@ def book_lift(id: int, rider: str, pickup: str, driver: str, destination: str):
     conn.close()
 
 def remove_rider(id: int):
-    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    conn = db.connect("tisb-hacks.db")
     c = conn.cursor()
     c.execute(f"UPDATE lifts SET rider = NULL WHERE id = {id}")
     conn.commit()
@@ -134,7 +134,7 @@ def remove_rider(id: int):
     conn.close()
 
 def get_notifications(username: str):
-    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    conn = db.connect("tisb-hacks.db")
     c = conn.cursor()
     c.execute(f"SELECT * FROM notifications WHERE username = '{username}'")
     notification = c.fetchone()
@@ -146,7 +146,7 @@ def get_notifications(username: str):
     return notification
 
 def add_notification(id: int, username: str, pickup: str, text: str, type: int):
-    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    conn = db.connect("tisb-hacks.db")
     c = conn.cursor()
     pickup = pickup.replace("'", "")
     c.execute(f"INSERT INTO notifications VALUES ({id}, '{username}', '{pickup}', '{text}', {type})")
@@ -155,7 +155,7 @@ def add_notification(id: int, username: str, pickup: str, text: str, type: int):
     conn.close()
 
 def get_profile(username: str):
-    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    conn = db.connect("tisb-hacks.db")
     c = conn.cursor()
     c.execute(f"SELECT * FROM profiles WHERE username = '{username}'")
     profile = c.fetchone()
@@ -164,7 +164,7 @@ def get_profile(username: str):
     return profile
 
 def edit_profile(username: str, name: str, phone: int, email: str):
-    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    conn = db.connect("tisb-hacks.db")
     c = conn.cursor()
     c.execute(f"UPDATE profiles SET name = '{name}', phone = {phone}, email = '{email}' WHERE username = '{username}'")
     conn.commit()

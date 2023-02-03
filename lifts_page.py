@@ -19,7 +19,7 @@ class Lifts:
 
         self.window = tk.Tk()
         self.window.title("Lifts")
-        self.window.tk.call("source", "./tisb-hacks/azure.tcl")
+        self.window.tk.call("source", "./azure.tcl")
         self.window.tk.call("set_theme", "dark")
 
         self.main_frame = ttk.Frame(self.window)
@@ -173,9 +173,9 @@ class Lifts:
         self.maps_select = []
         for x in range(len(self.routes)):
             self.map = f"https://maps.googleapis.com/maps/api/staticmap?size=300x300&markers=color:blue|{origin.replace(' ', '%20')}&markers=color:red|{destination.replace(' ', '%20')}&path=enc:{self.routes[x]}&key={API_KEY}"
-            request.urlretrieve(self.map, f"./tisb-hacks/assets/map_route_{x}.png")
+            request.urlretrieve(self.map, f"./assets/map_route_{x}.png")
 
-            self.maps.append(ImageTk.PhotoImage(Image.open(f"./tisb-hacks/assets/map_route_{x}.png")))
+            self.maps.append(ImageTk.PhotoImage(Image.open(f"./assets/map_route_{x}.png")))
             self.maps_lbls.append(ttk.Label(self.maps_frame, image = self.maps[x]))
             self.maps_lbls[x].grid(row = 0, column = x, padx = 20, pady = 10)
             self.maps_select.append(ttk.Button(self.maps_frame, text = "Select", style = "Accent.TButton", command = lambda m = x: self.select_map(m)))
@@ -193,7 +193,7 @@ class Lifts:
         self.maps_frame = ttk.Frame(self.main_frame)
         self.maps_frame.grid(row = 2, column = 0)
 
-        self.chosen_map = ImageTk.PhotoImage(Image.open(f"./tisb-hacks/assets/map_route_{index}.png"))
+        self.chosen_map = ImageTk.PhotoImage(Image.open(f"./assets/map_route_{index}.png"))
         self.chosen_index = index
         self.chosen_map_lbl = ttk.Label(self.maps_frame, image = self.chosen_map)
         self.chosen_map_lbl.grid(row = 0, column = 0)
@@ -209,12 +209,12 @@ class Lifts:
             self.window.destroy()
             self.sub_window = tk.Tk()
             self.sub_window.title("Lifts")
-            self.sub_window.tk.call("source", "./tisb-hacks/azure.tcl")
+            self.sub_window.tk.call("source", "./azure.tcl")
             self.sub_window.tk.call("set_theme", "dark")
 
             self.confirmation = ttk.Label(self.sub_window, text = f"You have successfully created a lift!\n\n\nStarting point: {self.origin}\n\nDestination: {self.destination}", justify = "center")
             self.confirmation.grid(row = 0, column = 0, padx = 10, pady = 10)
-            self.chosen_map = ImageTk.PhotoImage(Image.open(f"./tisb-hacks/assets/map_route_{self.chosen_index}.png"))
+            self.chosen_map = ImageTk.PhotoImage(Image.open(f"./assets/map_route_{self.chosen_index}.png"))
             self.confirmation_map = ttk.Label(self.sub_window, image = self.chosen_map)
             self.confirmation_map.grid(row = 1, column = 0, padx = 10, pady = 10)
             self.sub_window.mainloop()

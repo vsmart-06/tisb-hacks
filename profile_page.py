@@ -10,7 +10,7 @@ class Profile:
         self.window = tk.Tk()
         self.window.geometry("500x500")
         self.window.title("Profile")
-        self.window.tk.call("source", "./tisb-hacks/azure.tcl")
+        self.window.tk.call("source", "./azure.tcl")
         self.window.tk.call("set_theme", "dark")
 
         self.main_frame = ttk.Frame(self.window)
@@ -33,7 +33,7 @@ class Profile:
         self.window.destroy()
         self.sub_window = tk.Tk()
         self.sub_window.title("Profile")
-        self.sub_window.tk.call("source", "./tisb-hacks/azure.tcl")
+        self.sub_window.tk.call("source", "./azure.tcl")
         self.sub_window.tk.call("set_theme", "dark")
         self.sub_window.geometry("700x500")
         
@@ -61,7 +61,7 @@ class Profile:
         self.window = tk.Tk()
         self.window.geometry("500x500")
         self.window.title("Profile")
-        self.window.tk.call("source", "./tisb-hacks/azure.tcl")
+        self.window.tk.call("source", "./azure.tcl")
         self.window.tk.call("set_theme", "dark")
 
         self.main_frame = ttk.Frame(self.window)
@@ -111,7 +111,7 @@ class Profile:
         self.window.destroy()
         self.sub_window = tk.Tk()
         self.sub_window.title("Profile")
-        self.sub_window.tk.call("source", "./tisb-hacks/azure.tcl")
+        self.sub_window.tk.call("source", "./azure.tcl")
         self.sub_window.tk.call("set_theme", "dark")
 
         self.profile = get_profile(self.username)

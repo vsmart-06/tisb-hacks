@@ -8,7 +8,7 @@ class Login:
 
         self.window = tk.Tk()
         self.window.title("Login")
-        self.window.tk.call("source", "./tisb-hacks/azure.tcl")
+        self.window.tk.call("source", "./azure.tcl")
         self.window.tk.call("set_theme", "dark")
 
         self.username_frame = ttk.Frame(self.window)

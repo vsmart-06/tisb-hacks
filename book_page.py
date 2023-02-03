@@ -19,7 +19,7 @@ class Book:
 
         self.window = tk.Tk()
         self.window.title("Book")
-        self.window.tk.call("source", "./tisb-hacks/azure.tcl")
+        self.window.tk.call("source", "./azure.tcl")
         self.window.tk.call("set_theme", "dark")
         self.window.geometry("1200x400")
 
@@ -129,7 +129,7 @@ class Book:
             self.window.destroy()
             self.sub_window = tk.Tk()
             self.sub_window.title("Book")
-            self.sub_window.tk.call("source", "./tisb-hacks/azure.tcl")
+            self.sub_window.tk.call("source", "./azure.tcl")
             self.sub_window.tk.call("set_theme", "dark")
 
         self.sub_main_frame = ttk.Frame(self.sub_window)
@@ -153,9 +153,9 @@ class Book:
         self.maps_select = []
         for x in range(len(options)):
             self.map = f"https://maps.googleapis.com/maps/api/staticmap?size=300x300&markers=color:blue|label:A|{options[x][2].replace(' ', '%20')}&markers=color:blue|label:B|{options[x][3].replace(' ', '%20')}&markers=color:red|{self.chosen_place.replace(' ', '%20')}&path=enc:{options[x][4]}&key={API_KEY}"
-            request.urlretrieve(self.map, f"./tisb-hacks/assets/map_route_{x}.png")
+            request.urlretrieve(self.map, f"./assets/map_route_{x}.png")
 
-            self.maps.append(ImageTk.PhotoImage(Image.open(f"./tisb-hacks/assets/map_route_{x}.png")))
+            self.maps.append(ImageTk.PhotoImage(Image.open(f"./assets/map_route_{x}.png")))
             self.maps_lbls.append(ttk.Label(self.maps_frame, image = self.maps[x]))
             self.maps_lbls[x].grid(row = x, column = 0, padx = 20, pady = 20)
             self.maps_select.append(ttk.Button(self.maps_frame, text = "Select", style = "Accent.TButton", command = lambda m = x, n = options[x][0]: self.select_map(m, n)))
@@ -184,7 +184,7 @@ class Book:
         self.confirmation = ttk.Label(self.sub_main_frame, text = f"Details of the journey:\n\n\nStarting point (point A): {self.data[2]}\n\nDestination (point B): {self.data[3]}\n\nCarpooler: {self.data[1]}\n\nDistance of your destination from point A: {distances[0]/1000}km\nDistance of your destination from point B: {distances[1]/1000}km", justify = "center")
         self.confirmation.grid(row = 0, column = 0, padx = 10, pady = 10)
 
-        self.chosen_map = ImageTk.PhotoImage(Image.open(f"./tisb-hacks/assets/map_route_{index}.png"))
+        self.chosen_map = ImageTk.PhotoImage(Image.open(f"./assets/map_route_{index}.png"))
         self.chosen_map_lbl = ttk.Label(self.maps_frame, image = self.chosen_map)
         self.chosen_map_lbl.grid(row = 0, column = 0, padx = 20, pady = 20)
 
@@ -204,7 +204,7 @@ class Book:
         self.sub_window.destroy()
         self.pickup_window = tk.Tk()
         self.pickup_window.title("Book")
-        self.pickup_window.tk.call("source", "./tisb-hacks/azure.tcl")
+        self.pickup_window.tk.call("source", "./azure.tcl")
         self.pickup_window.tk.call("set_theme", "dark")
 
         self.pickup_main_frame = ttk.Frame(self.pickup_window)
@@ -233,9 +233,9 @@ class Book:
     
     def create_map(self):
         self.map_url = f"https://maps.googleapis.com/maps/api/staticmap?size=300x300&markers=color:blue|label:A|{self.data[2].replace(' ', '%20')}&markers=color:blue|label:B|{self.data[3].replace(' ', '%20')}&markers=color:red|{self.chosen_place.replace(' ', '%20')}&path=enc:{self.data[4]}&key={API_KEY}"
-        request.urlretrieve(self.map_url, f"./tisb-hacks/assets/map_route_pickup.png")
+        request.urlretrieve(self.map_url, f"./assets/map_route_pickup.png")
 
-        self.map = ImageTk.PhotoImage(Image.open(f"./tisb-hacks/assets/map_route_pickup.png"))
+        self.map = ImageTk.PhotoImage(Image.open(f"./assets/map_route_pickup.png"))
         self.maps_lbl = ttk.Label(self.map_frame, image = self.map)
         self.maps_lbl.grid(row = 0, column = 0, padx = 20, pady = 20)
     
@@ -248,7 +248,7 @@ class Book:
         self.pickup_window.destroy()
         self.final_window = tk.Tk()
         self.final_window.title("Book")
-        self.final_window.tk.call("source", "./tisb-hacks/azure.tcl")
+        self.final_window.tk.call("source", "./azure.tcl")
         self.final_window.tk.call("set_theme", "dark")
 
         confirmation_lbl = ttk.Label(self.final_window, text = "You have successfully booked the ride.\n\nYou will receive a notification when your carpooler accepts your request and approves your pickup location.", justify = "center")
