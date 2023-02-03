@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from records import *
+import os
 
 class Login:
     def __init__(self):
@@ -35,7 +36,7 @@ class Login:
         self.error_lbl.grid(row = 4, column = 0, columnspan = 2)
 
         self.window.mainloop()
-        quit()
+        os._exit(1)
 
     def login(self):
         self.username = self.username_ent.get().strip()
