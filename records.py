@@ -30,6 +30,14 @@ c.execute('''
         type INTEGER NOT NULL
     )
 ''')
+c.execute('''
+    CREATE TABLE IF NOT EXISTS profiles (
+        username TEXT NOT NULL PRIMARY KEY,
+        name TEXT,
+        phone INTEGER,
+        email TEXT
+    )
+''')
 conn.commit()
 
 def user_login(username: str, password: str):
@@ -52,6 +60,7 @@ def user_signup(username: str, password: str):
     record = c.fetchone()
     if not record:
         c.execute(f"INSERT INTO user_details VALUES ('{username}', '{password}', 100)")
+        c.execute(f"INSERT INTO profiles (username) VALUES ('{username}')")
         conn.commit()
         c.close()
         conn.close()
@@ -141,6 +150,23 @@ def add_notification(id: int, username: str, pickup: str, text: str, type: int):
     c = conn.cursor()
     pickup = pickup.replace("'", "")
     c.execute(f"INSERT INTO notifications VALUES ({id}, '{username}', '{pickup}', '{text}', {type})")
+    conn.commit()
+    c.close()
+    conn.close()
+
+def get_profile(username: str):
+    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    c = conn.cursor()
+    c.execute(f"SELECT * FROM profiles WHERE username = '{username}'")
+    profile = c.fetchone()
+    c.close()
+    conn.close()
+    return profile
+
+def edit_profile(username: str, name: str, phone: int, email: str):
+    conn = db.connect("tisb-hacks/tisb-hacks.db")
+    c = conn.cursor()
+    c.execute(f"UPDATE profiles SET name = '{name}', phone = {phone}, email = '{email}' WHERE username = '{username}'")
     conn.commit()
     c.close()
     conn.close()

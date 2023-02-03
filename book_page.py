@@ -163,6 +163,11 @@ class Book:
         
         self.sub_window.update()
         self.sidebar = Sidebar(self.sub_window, self.username)
+
+        try:
+            self.sub_window.mainloop()
+        except:
+            pass
     
     def select_map(self, index, id):
         self.chosen_index = index
@@ -223,6 +228,8 @@ class Book:
 
         self.pickup_window.update()
         self.sidebar = Sidebar(self.pickup_window, self.username)
+
+        self.pickup_window.mainloop()
     
     def create_map(self):
         self.map_url = f"https://maps.googleapis.com/maps/api/staticmap?size=300x300&markers=color:blue|label:A|{self.data[2].replace(' ', '%20')}&markers=color:blue|label:B|{self.data[3].replace(' ', '%20')}&markers=color:red|{self.chosen_place.replace(' ', '%20')}&path=enc:{self.data[4]}&key={API_KEY}"
@@ -240,6 +247,7 @@ class Book:
         book_lift(self.data[0], self.username, self.chosen_place, self.data[1], self.data[3])
         self.pickup_window.destroy()
         self.final_window = tk.Tk()
+        self.final_window.title("Book")
         self.final_window.tk.call("source", "./tisb-hacks/azure.tcl")
         self.final_window.tk.call("set_theme", "dark")
 

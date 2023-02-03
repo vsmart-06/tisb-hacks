@@ -75,7 +75,8 @@ class Sidebar:
             from lifts_page import Lifts
             Lifts(self.username)
         elif index == 3:
-            pass
+            from profile_page import Profile
+            Profile(self.username)
         elif index == 4:
             from notifications_page import Notifications
             Notifications(self.username)
